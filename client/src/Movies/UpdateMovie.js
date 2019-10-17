@@ -8,18 +8,27 @@ const UpdateMovie = props => {
   const history = useHistory();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/movies/${params.id}`)
-      .then(res => setData(res.data))
-      .catch(err => console.error(err));
+    if (params.id) {
+      axios
+        .get(`http://localhost:5000/api/movies/${params.id}`)
+        .then(res => setData(res.data))
+        .catch(err => console.error(err));
+    }
   }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
-    axios
-      .put(`http://localhost:5000/api/movies/${params.id}`, data)
-      .then(res => history.push(`/`))
-      .catch(err => console.erro(err));
+    if (params.id) {
+      axios
+        .put(`http://localhost:5000/api/movies/${params.id}`, data)
+        .then(res => history.push(`/`))
+        .catch(err => console.erro(err));
+    } else {
+      axios
+        .post(`http://localhost:5000/api/movies/`, data)
+        .then(res => history.push(`/`))
+        .catch(err => console.erro(err));
+    }
   };
 
   const handleChange = e => {
@@ -41,6 +50,7 @@ const UpdateMovie = props => {
           type="text"
           name="title"
           value={data.title}
+          placeholder="Title"
           onChange={e => handleChange(e)}
         />
         <br />
@@ -48,6 +58,7 @@ const UpdateMovie = props => {
           type="text"
           name="director"
           value={data.director}
+          placeholder="Director"
           onChange={e => handleChange(e)}
         />
         <br />
@@ -55,6 +66,7 @@ const UpdateMovie = props => {
           type="text"
           name="metascore"
           value={data.metascore}
+          placeholder="Metascore"
           onChange={e => handleChange(e)}
         />
         <br />
@@ -62,6 +74,7 @@ const UpdateMovie = props => {
           type="text"
           name="stars"
           value={data.stars}
+          placeholder="Stars"
           onChange={e => handleChange(e)}
         />
         <br />
